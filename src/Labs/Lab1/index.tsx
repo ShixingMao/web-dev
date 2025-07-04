@@ -44,7 +44,7 @@ Text documents are often broken up into several sections and subsections. Each s
         <ol id="wd-your-favorite-recipe">
             <li>Add water</li>
             <li>Add oil</li>
-            <li>Add food</li>
+            <li>Add food and ingredients</li>
         </ol>
         <h5>Unordered List Tag</h5>
         My favorite books (in no particular order)
