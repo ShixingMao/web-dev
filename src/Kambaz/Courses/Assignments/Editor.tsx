@@ -83,17 +83,17 @@ export default function AssignmentEditor() {
                         <input id="wd-assign-to" value="Everyone" /><br /><br />
 
                         <label htmlFor="wd-due-date">Due</label><br />
-                        <input type="date" id="wd-due-date" /><br /><br />
+                        <input defaultValue="2025-05-01" type="date" id="wd-due-date" /><br /><br />
 
 
                         <div style={{ display: "flex", gap: "16px" }}>
                             <div>
                                 <label htmlFor="wd-available-from">Available from</label><br />
-                                <input type="date" id="wd-available-from" />
+                                <input defaultValue="2025-05-01" type="date" id="wd-available-from" />
                             </div>
                             <div>
                                 <label htmlFor="wd-available-until">Until</label><br />
-                                <input type="date" id="wd-available-until" />
+                                <input defaultValue="2025-05-01" type="date" id="wd-available-until" />
                             </div>
                         </div>
                     </td>
@@ -101,10 +101,10 @@ export default function AssignmentEditor() {
             </table>
             <hr />
 
-<div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "16px" }}>
-  <button>Cancel</button>
-  <button>Save</button>
-</div>
+            <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px", marginTop: "16px" }}>
+                <button>Cancel</button>
+                <button>Save</button>
+            </div>
         </div>
     );
 }
