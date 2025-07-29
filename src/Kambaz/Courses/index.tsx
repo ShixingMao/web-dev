@@ -1,33 +1,33 @@
 import CourseNavigation from "./Navigation";
-import { Navigate, Route, Routes, useParams,useLocation  } from "react-router";
+import { Navigate, Route, Routes, useParams, useLocation } from "react-router";
 import Modules from "./Modules";
 import Assignments from "./Assignments";
 import AssignmentEditor from "./Assignments/Editor";
 import Home from "./Home";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People/Table";
-import { courses } from "../Database";
+import { useSelector } from "react-redux";
 
 export default function Courses() {
   const { cid } = useParams();
-  const course = courses.find((course) => course._id === cid);
   const { pathname } = useLocation();
+
+  const courses = useSelector((state: any) => state.coursesReducer.courses);
+  const course = courses.find((course: any) => course._id === cid);
 
   return (
     <div id="wd-courses">
       <h2 className="text-danger">
         <FaAlignJustify className="me-4 fs-4 mb-1" />
-        {course && course.name} &gt; {pathname.split("/")[4]}
-
-      </h2> <hr />
+        {course?.name} &gt; {pathname.split("/")[4]}
+      </h2>
+      <hr />
 
       <div className="d-flex">
         <div className="d-none d-md-block">
-
           <CourseNavigation />
         </div>
         <div className="flex-fill">
-
           <Routes>
             <Route path="/" element={<Navigate to="Home" />} />
             <Route path="Home" element={<Home />} />
@@ -40,9 +40,8 @@ export default function Courses() {
             <Route path="Grades" element={<h2>Grades</h2>} />
             <Route path="People" element={<PeopleTable />} />
           </Routes>
-        </div></div>
+        </div>
+      </div>
     </div>
   );
 }
-
-

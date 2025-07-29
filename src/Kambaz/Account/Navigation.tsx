@@ -1,10 +1,27 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { useSelector } from "react-redux";
+
 export default function AccountNavigation() {
+  const { currentUser } = useSelector((state: any) => state.accountReducer);
+  const { pathname } = useLocation();
+  const links = currentUser ? ["Profile"] : ["Signin", "Signup"];
+
   return (
     <div id="wd-account-navigation" className="wd list-group fs-4 rounded-0">
-      <Link to={`/Kambaz/Account/Signin`}  className="list-group-item active border border-0 py-2"> Signin  </Link>
-      <Link to={`/Kambaz/Account/Signup`}  className="list-group-item text-danger border border-0 py-2"> Signup  </Link>
-      <Link to={`/Kambaz/Account/Profile`} className="list-group-item text-danger border border-0 py-2"> Profile </Link>
+      {links.map((link) => (
+        <Link
+          key={link}
+          to={`/Kambaz/Account/${link}`}
+          className={`list-group-item border-0 py-2 ${
+            pathname.includes(link) ? "active" : "text-danger"
+          }`}
+        >
+          {link}
+        </Link>
+      ))}
     </div>
-);}
+  );
+}
+
+
 
