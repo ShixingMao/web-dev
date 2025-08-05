@@ -13,17 +13,23 @@ const assignmentsSlice = createSlice({
   initialState,
   reducers: {
     addAssignment: (state, { payload }) => {
-      const newAssignment = {
-        _id: uuidv4(),
-        title: payload.title || "Untitled Assignment",
-        description: payload.description || "",
-        points: payload.points ?? 100,
-        dueDate: payload.dueDate || "",
-        availableFrom: payload.availableFrom || "",
-        availableUntil: payload.availableUntil || "",
-        course: payload.course,
-      };
-      state.assignments.push(newAssignment);
+      // If payload is a complete assignment object (from server)
+      if (payload._id) {
+        state.assignments.push(payload);
+      } else {
+        // Create a new assignment locally
+        const newAssignment = {
+          _id: uuidv4(),
+          title: payload.title || "Untitled Assignment",
+          description: payload.description || "",
+          points: payload.points ?? 100,
+          dueDate: payload.dueDate || "",
+          availableFrom: payload.availableFrom || "",
+          availableUntil: payload.availableUntil || "",
+          course: payload.course,
+        };
+        state.assignments.push(newAssignment);
+      }
     },
     deleteAssignment: (state, { payload: id }) => {
       state.assignments = state.assignments.filter(a => a._id !== id);
@@ -39,6 +45,10 @@ const assignmentsSlice = createSlice({
     clearCurrentAssignment: (state) => {
       state.currentAssignment = null;
     },
+    // Add this new reducer to set assignments from server
+    setAssignments: (state, { payload }) => {
+      state.assignments = payload;
+    },
   },
 });
 
@@ -48,6 +58,7 @@ export const {
   updateAssignment,
   setCurrentAssignment,
   clearCurrentAssignment,
+  setAssignments, // Export the new action
 } = assignmentsSlice.actions;
 
 export default assignmentsSlice.reducer;

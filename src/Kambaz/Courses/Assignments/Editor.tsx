@@ -1,52 +1,75 @@
 import { useParams, useNavigate } from "react-router-dom";
 import { Form, Row, Col, Button } from "react-bootstrap";
 import { v4 as uuidv4 } from "uuid";
-import { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
 import { addAssignment, updateAssignment } from "./reducer";
+import * as assignmentClient from "./client";
 
 export default function AssignmentEditor() {
   const { cid, aid } = useParams();
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  const [isLoading, setIsLoading] = useState(true);
 
   const isNew = aid === "New";
-  const allAssignments = useSelector(
-    (state: any) => state.assignmentsReducer.assignments
-  );
+  const [assignment, setAssignment] = useState<any>({
+    _id: uuidv4(),
+    title: "",
+    description: "",
+    points: 100,
+    dueDate: "",
+    availableFrom: "",
+    availableUntil: "",
+    course: cid,
+  });
 
-  const existingAssignment = allAssignments.find(
-    (a: any) => a._id === aid
-  );
-  const [assignment, setAssignment] = useState<any>(
-    isNew
-      ? {
-          _id: uuidv4(),
-          title: "",
-          description: "",
-          points: 100,
-          dueDate: "",
-          availableFrom: "",
-          availableUntil: "",
-          course: cid,
+  // Load assignment if editing
+  useEffect(() => {
+    const loadAssignment = async () => {
+      if (!isNew && aid) {
+        try {
+          setIsLoading(true);
+          const fetchedAssignment = await assignmentClient.fetchAssignmentById(aid);
+          setAssignment(fetchedAssignment);
+        } catch (error) {
+          console.error("Error loading assignment:", error);
+        } finally {
+          setIsLoading(false);
         }
-      : existingAssignment
-  );
+      } else {
+        setIsLoading(false);
+      }
+    };
 
-  if (!assignment) return <div>Assignment not found.</div>;
+    loadAssignment();
+  }, [isNew, aid]);
 
   const handleChange = (field: string, value: any) => {
     setAssignment({ ...assignment, [field]: value });
   };
 
-  const handleSave = () => {
-    if (isNew) {
-      dispatch(addAssignment(assignment));
-    } else {
-      dispatch(updateAssignment(assignment));
+  const handleSave = async () => {
+    try {
+      if (isNew && cid) {
+        // Create new assignment
+        const savedAssignment = await assignmentClient.createAssignment(cid, assignment);
+        dispatch(addAssignment(savedAssignment));
+      } else if (aid) {
+        // Update existing assignment
+        const updatedAssignment = await assignmentClient.updateAssignment(aid, assignment);
+        dispatch(updateAssignment(updatedAssignment));
+      }
+      navigate(`/Kambaz/Courses/${cid}/Assignments`);
+    } catch (error) {
+      console.error("Error saving assignment:", error);
+      alert("Failed to save assignment. Please try again.");
     }
-    navigate(`/Kambaz/Courses/${cid}/Assignments`);
   };
+
+  if (isLoading) {
+    return <div className="p-4">Loading assignment...</div>;
+  }
 
   return (
     <div id="wd-assignments-editor" className="p-4">
