@@ -17,6 +17,8 @@ export default function TOC() {
         active={pathname.includes("Lab5")}> Lab 5 </Nav.Link> </Nav.Item>
       <Nav.Item> <Nav.Link as={Link} to="/Kambaz" id="wd-a3"> Kambaz </Nav.Link> </Nav.Item>
       <Nav.Item> <Nav.Link href="https://github.com/ShixingMao/web-dev/" target="_blank"> My GitHub </Nav.Link> </Nav.Item>
+      <Nav.Item> <Nav.Link href="https://github.com/ShixingMao/kambaz-node-server-app" target="_blank"> My GitHub Server</Nav.Link> </Nav.Item>
+      <Nav.Item> <Nav.Link href="https://kambaz-node-server-app-zulb.onrender.com" target="_blank"> My Render Server</Nav.Link> </Nav.Item>
     </Nav>
   );
 }
