@@ -15,6 +15,7 @@ import {
 import { useState, useEffect } from "react";
 import * as courseClient from "./Courses/client";
 import * as enrollmentClient from "./Enrollments/client";
+// import * as userClient from "./Account/client"; // Add this import
 
 // Define interfaces for type safety
 interface Course {
