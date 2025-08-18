@@ -7,7 +7,13 @@ import Home from "./Home";
 import { FaAlignJustify } from "react-icons/fa";
 import PeopleTable from "./People";
 import { useSelector } from "react-redux";
-
+import QuizDetails from "./Quizzes/QuizDetails";
+import QuizEditor from "./Quizzes/QuizEditor";
+import QuizPreview from "./Quizzes/Preview";
+import QuizzesList from "./Quizzes/QuizzesList";
+import QuestionEditor from "./Quizzes/QuestionEditor";
+import TakeQuiz from "./Quizzes/TakeQuiz";
+import QuizReview from "./Quizzes/Review";
 export default function Courses() {
   const { cid } = useParams();
   const { pathname } = useLocation();
@@ -36,7 +42,15 @@ export default function Courses() {
             <Route path="Assignments/:aid" element={<AssignmentEditor />} />
             <Route path="Piazza" element={<h2>Piazza</h2>} />
             <Route path="Zoom" element={<h2>Zoom</h2>} />
-            <Route path="Quizzes" element={<h2>Quizzes</h2>} />
+            {/* <Route path="Quizzes" element={<h2>Quizzes</h2>} /> */}
+            <Route path="Quizzes" element={<QuizzesList />} />
+            <Route path="Quizzes/:qid" element={<QuizDetails />} />
+            <Route path="Quizzes/:qid/Preview" element={<QuizPreview />} />
+            <Route path="Quizzes/:qid/Edit" element={<QuizEditor />} />
+            <Route path="Quizzes/:qid/Edit/questions/:qnid" element={<QuestionEditor />} />
+            <Route path="Quizzes/:qid/Take" element={<TakeQuiz />} /> 
+            <Route path="Quizzes/:qid/Review" element={<QuizReview />} />
+
             <Route path="Grades" element={<h2>Grades</h2>} />
             <Route path="People/*" element={<PeopleTable />} />
           </Routes>
